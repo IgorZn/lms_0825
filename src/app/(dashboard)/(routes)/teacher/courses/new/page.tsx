@@ -41,6 +41,7 @@ function NewCourse() {
       });
       const data = await response.json();
       router.push(`/teacher/courses/${data.id}`);
+      toast.success('Course created successfully');
     } catch (e) {
       toast.error(<div className={'text-red-500'}>Something went wrong</div>, {
         icon: <AlertCircleIcon className="h-5 w-5 text-red-900" />,
