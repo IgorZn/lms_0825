@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AlertProvider } from '@/components/provider/alert-provider';
 import { AlertCircleIcon } from 'lucide-react';
 
 const formSchema = z.object({
@@ -28,7 +27,6 @@ function NewCourse() {
   });
 
   const { isSubmitting, isValid } = form.formState;
-  const [alert, setAlert] = useState(false);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -43,6 +41,7 @@ function NewCourse() {
       router.push(`/teacher/courses/${data.id}`);
       toast.success('Course created successfully');
     } catch (e) {
+      console.log('Error creating course', e);
       toast.error(<div className={'text-red-500'}>Something went wrong</div>, {
         icon: <AlertCircleIcon className="h-5 w-5 text-red-900" />,
       });
@@ -57,7 +56,7 @@ function NewCourse() {
       </div>
       <div className={'w-full'}>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 space-y-8" onClick={() => setAlert(false)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 space-y-8">
             <FormField
               control={form.control}
               name="title"
