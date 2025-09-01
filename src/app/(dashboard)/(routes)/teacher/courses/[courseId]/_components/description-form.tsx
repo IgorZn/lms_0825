@@ -7,10 +7,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { updateCourseDescription, updateCourseTitle } from '../lib/api-calls';
+import { updateCourseDescription } from '../lib/api-calls';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
@@ -22,7 +21,7 @@ interface DescriptionFormProps {
 }
 
 const formSchema = z.object({
-  description: z.string().min(2, { message: 'Description must be at least 2 characters long' }).max(250),
+  description: z.string().min(2, { message: 'Description must be at least 2 characters long' }).max(250).nullable(),
 });
 
 function DescriptionForm({ initialData, courseId }: DescriptionFormProps) {
