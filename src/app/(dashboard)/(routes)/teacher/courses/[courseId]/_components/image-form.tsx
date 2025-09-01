@@ -2,18 +2,14 @@
 
 import React, { useState } from 'react';
 import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { ImageIcon, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { updateCourseDescription } from '../lib/api-calls';
+import { updateCourseDescription, updateCourseImage } from '../lib/api-calls';
 import { cn } from '@/lib/utils';
 import { Course } from '@prisma/client';
-import { UploadButton } from '@/utils/uploadthing';
 import { FileUploader } from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/file-uploader';
 
 interface ImageFormProps {
@@ -33,7 +29,7 @@ function ImageForm({ initialData, courseId }: ImageFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await updateCourseDescription(courseId, values.imageUrl);
+      await updateCourseImage(courseId, values.imageUrl);
       toast.success(<div className={'text-green-700'}>Course description updated successfully</div>);
       toggleEdit();
       router.refresh();
@@ -47,7 +43,7 @@ function ImageForm({ initialData, courseId }: ImageFormProps) {
       <div className={'flex items-center justify-between font-medium'}>
         Image
         {!isEditing && (
-          <p className={cn('text-sm font-light', !initialData.description && 'italic text-slate-500')}>
+          <p className={cn('text-sm font-light', !initialData.imageUrl && 'italic text-slate-500')}>
             {initialData.imageUrl || 'No images provided'}
           </p>
         )}
