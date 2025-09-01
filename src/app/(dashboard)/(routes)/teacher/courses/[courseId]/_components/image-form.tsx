@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import * as z from 'zod';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { ImageIcon, PlusCircle } from 'lucide-react';
+import { ImageIcon, Pencil, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { updateCourseDescription, updateCourseImage } from '../lib/api-calls';
@@ -53,6 +53,12 @@ function ImageForm({ initialData, courseId }: ImageFormProps) {
           {!isEditing && !initialData.imageUrl && (
             <>
               <PlusCircle className={'mr-2 h-4 w-4'} /> Add image
+            </>
+          )}
+
+          {!isEditing && initialData.imageUrl && (
+            <>
+              <Pencil className={'mr-2 h-4 w-4'} /> Edit image
             </>
           )}
         </Button>
