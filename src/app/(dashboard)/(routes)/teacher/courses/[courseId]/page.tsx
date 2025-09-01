@@ -3,6 +3,7 @@ import { getCourseById } from '@/app/(dashboard)/(routes)/teacher/courses/lib/co
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import TitleForm from './_components/title-form';
+import DescriptionForm from './_components/description-form';
 
 async function Page({ params }: { params: { courseId: string } }) {
   const { userId } = await auth();
@@ -37,6 +38,7 @@ async function Page({ params }: { params: { courseId: string } }) {
         </div>
       </div>
       <TitleForm initialData={course} courseId={course.id} />
+      <DescriptionForm initialData={course} courseId={course.id} />
     </div>
   );
 }

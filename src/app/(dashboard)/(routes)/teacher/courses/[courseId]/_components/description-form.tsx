@@ -10,20 +10,22 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } 
 import { Input } from '@/components/ui/input';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { updateCourseTitle } from '../lib/api-calls';
+import { updateCourseDescription, updateCourseTitle } from '../lib/api-calls';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 
-interface TitleFormProps {
+interface DescriptionFormProps {
   initialData: {
-    title: string;
+    description: string;
   };
   courseId: string;
 }
 
 const formSchema = z.object({
-  title: z.string().min(2, { message: 'Title must be at least 2 characters long' }).max(250),
+  description: z.string().min(2, { message: 'Description must be at least 2 characters long' }).max(250),
 });
 
-function TitleForm({ initialData, courseId }: TitleFormProps) {
+function DescriptionForm({ initialData, courseId }: DescriptionFormProps) {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,8 +38,8 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await updateCourseTitle(courseId, values.title);
-      toast.success(<div className={'text-green-700'}>Course title updated successfully</div>);
+      await updateCourseDescription(courseId, values.description);
+      toast.success(<div className={'text-green-700'}>Course description updated successfully</div>);
       toggleEdit();
       router.refresh();
     } catch (error) {
@@ -48,15 +50,19 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
   return (
     <div className={'mt-6 rounded-md border bg-slate-50 p-4'}>
       <div className={'flex items-center justify-between font-medium'}>
-        Course title
-        {!isEditing && <p className={'text-sm font-light'}>{initialData.title}</p>}
+        Course description
+        {!isEditing && (
+          <p className={cn('text-sm font-light', !initialData.description && 'italic text-slate-500')}>
+            {initialData.description || 'No description provided'}
+          </p>
+        )}
         <Button type="submit" variant={'ghost'} onClick={toggleEdit}>
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className={'mr-2 h-4 w-4'} />
-              Edit title
+              Edit description
             </>
           )}
         </Button>
@@ -67,11 +73,11 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-8">
               <FormField
                 control={form.control}
-                name="title"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input disabled={isSubmitting} placeholder="e.g. JavaScript" {...field} />
+                      <Textarea placeholder="Give a description of the course" className="resize-none" {...field} />
                     </FormControl>
                     <FormDescription>This is your public display name.</FormDescription>
                     <FormMessage />
@@ -89,4 +95,4 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
   );
 }
 
-export default TitleForm;
+export default DescriptionForm;
