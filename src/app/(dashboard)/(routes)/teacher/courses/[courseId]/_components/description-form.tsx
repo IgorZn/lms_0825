@@ -21,7 +21,7 @@ interface DescriptionFormProps {
 }
 
 const formSchema = z.object({
-  description: z.string().min(2, { message: 'Description must be at least 2 characters long' }).max(250).nullable(),
+  description: z.string().min(2, { message: 'Description must be at least 2 characters long' }).max(250),
 });
 
 function DescriptionForm({ initialData, courseId }: DescriptionFormProps) {

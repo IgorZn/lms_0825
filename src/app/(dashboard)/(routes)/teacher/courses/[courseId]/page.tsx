@@ -38,7 +38,7 @@ async function Page({ params }: { params: { courseId: string } }) {
         </div>
       </div>
       <TitleForm initialData={course} courseId={course.id} />
-      <DescriptionForm initialData={course} courseId={course.id} />
+      <DescriptionForm initialData={{ description: course.description ?? '' }} courseId={course.id} />
     </div>
   );
 }
