@@ -78,7 +78,6 @@ function DescriptionForm({ initialData, courseId }: DescriptionFormProps) {
                     <FormControl>
                       <Textarea placeholder="Give a description of the course" className="resize-none" {...field} />
                     </FormControl>
-                    <FormDescription>This is your public display name.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
