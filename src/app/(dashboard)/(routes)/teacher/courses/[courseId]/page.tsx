@@ -5,10 +5,17 @@ import { redirect } from 'next/navigation';
 import TitleForm from './_components/title-form';
 import DescriptionForm from './_components/description-form';
 import ImageForm from './_components/image-form';
+import { prisma } from '@/lib/db';
+import CategoryForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/category-form';
 
 async function Page({ params }: { params: { courseId: string } }) {
   const { userId } = await auth();
   const course = await getCourseById(params.courseId);
+  const categories = await prisma.category.findMany({
+    orderBy: {
+      createdAt: 'asc',
+    },
+  });
 
   if (!userId) {
     return redirect('/');
@@ -41,6 +48,14 @@ async function Page({ params }: { params: { courseId: string } }) {
       <TitleForm initialData={course} courseId={course.id} />
       <DescriptionForm initialData={{ description: course.description ?? '' }} courseId={course.id} />
       <ImageForm initialData={course} courseId={course.id} />
+      <CategoryForm
+        initialData={course}
+        courseId={course.id}
+        options={categories.map(category => ({
+          label: category.name,
+          value: category.id,
+        }))}
+      />
     </div>
   );
 }

@@ -14,3 +14,8 @@ export const updateCourseImage = async (courseId: string, imageUrl: string | nul
   const response = await axios.patch(`/api/courses/${courseId}`, { imageUrl });
   return response.data;
 };
+
+export const updateCourseCategory = async (courseId: string, categoryId: string | null) => {
+  const response = await axios.patch(`/api/courses/${courseId}`, { categoryId });
+  return response.data;
+};
