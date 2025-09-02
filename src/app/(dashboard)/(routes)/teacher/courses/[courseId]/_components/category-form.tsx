@@ -6,14 +6,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { Course } from '@prisma/client';
 import { Combobox } from '@/components/ui/combobox';
-import { updateCourseCategory } from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/lib/api-calls';
+import { courseFormPATCH } from '../lib/api-calls';
 
 interface CategoryFormProps {
   initialData: Course;
@@ -40,7 +39,7 @@ function CategoryForm({ initialData, courseId, options }: CategoryFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await updateCourseCategory(courseId, values.categoryId);
+      await courseFormPATCH(courseId, values);
       toast.success(<div className={'text-green-700'}>Course category updated successfully</div>, { duration: 1000 });
       toggleEdit();
       router.refresh();

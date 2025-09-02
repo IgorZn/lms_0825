@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ImageIcon, Pencil, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { updateCourseDescription, updateCourseImage } from '../lib/api-calls';
+import { courseFormPATCH } from '../lib/api-calls';
 import { cn } from '@/lib/utils';
 import { Course } from '@prisma/client';
 import { FileUploader } from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/file-uploader';
@@ -29,7 +29,7 @@ function ImageForm({ initialData, courseId }: ImageFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await updateCourseImage(courseId, values.imageUrl);
+      await courseFormPATCH(courseId, values);
       toast.success(<div className={'text-green-700'}>Course description updated successfully</div>);
       toggleEdit();
       router.refresh();

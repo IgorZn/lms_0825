@@ -1,6 +1,6 @@
 'use client';
 
-import { UploadButton, UploadDropzone } from '@/utils/uploadthing';
+import { UploadDropzone } from '@/utils/uploadthing';
 import { OurFileRouter } from '@/app/api/uploadthing/core';
 import { toast } from 'sonner';
 

@@ -10,7 +10,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } 
 import { Input } from '@/components/ui/input';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { updateCourseTitle } from '../lib/api-calls';
+import { courseFormPATCH } from '../lib/api-calls';
 
 interface TitleFormProps {
   initialData: {
@@ -36,7 +36,7 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await updateCourseTitle(courseId, values.title);
+      await courseFormPATCH(courseId, values);
       toast.success(<div className={'text-green-700'}>Course title updated successfully</div>);
       toggleEdit();
       router.refresh();

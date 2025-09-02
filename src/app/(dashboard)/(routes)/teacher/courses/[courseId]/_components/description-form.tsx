@@ -6,10 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { updateCourseDescription } from '../lib/api-calls';
+import { courseFormPATCH } from '../lib/api-calls';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
@@ -37,7 +37,7 @@ function DescriptionForm({ initialData, courseId }: DescriptionFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await updateCourseDescription(courseId, values.description);
+      await courseFormPATCH(courseId, values);
       toast.success(<div className={'text-green-700'}>Course description updated successfully</div>);
       toggleEdit();
       router.refresh();
