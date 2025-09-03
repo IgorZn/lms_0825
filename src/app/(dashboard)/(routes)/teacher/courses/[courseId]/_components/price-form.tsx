@@ -28,8 +28,8 @@ function PriceForm({ initialData, courseId }: PriceFormProps) {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: { price: initialData.price || undefined },
+    resolver: zodResolver(formSchema) as any,
+    defaultValues: { price: initialData.price ?? 0 },
   });
 
   const toggleEdit = () => setIsEditing(prev => !prev);
