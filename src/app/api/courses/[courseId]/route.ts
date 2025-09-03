@@ -5,27 +5,28 @@ import { prisma } from '@/lib/db';
 export async function PATCH(request: Request, { params }: { params: { courseId: string } }) {
   try {
     const { userId } = await auth();
-    const { courseId } = params;
-    const { url } = await request.json();
-    const courseOwner = await prisma.course.findUnique({ where: { id: courseId, userId: userId as string } });
+    const { courseId }: { courseId: string } = params;
+    const values = await request.json();
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    if (!courseOwner) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!courseId) {
+      return NextResponse.json({ error: 'No such course id' }, { status: 400 });
     }
 
-    const attachment = await prisma.attachment.create({
+    const course = await prisma.course.update({
+      where: {
+        id: courseId,
+        userId,
+      },
       data: {
-        courseId,
-        url: url as string,
-        name: url.split('/').pop() as string,
+        ...values,
       },
     });
 
-    return NextResponse.json(attachment);
+    return NextResponse.json(course);
   } catch (error) {
     console.log('[COURSE UPDATE]', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

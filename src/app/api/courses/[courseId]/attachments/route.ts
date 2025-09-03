@@ -1,32 +1,31 @@
-import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/db';
 
-export async function POST(req: Request, { params }: { params: { courseId: string } }) {
+export async function PATCH(request: Request, { params }: { params: { courseId: string } }) {
   try {
     const { userId } = await auth();
-    const { courseId }: { courseId: string } = params;
-    const values = await req.json();
+    const { courseId } = params;
+    const { url } = await request.json();
+    const courseOwner = await prisma.course.findUnique({ where: { id: courseId, userId: userId as string } });
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    if (!courseId) {
-      return NextResponse.json({ error: 'No such course id' }, { status: 400 });
+    if (!courseOwner) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const course = await prisma.course.update({
-      where: {
-        id: courseId,
-        userId,
-      },
+    const attachment = await prisma.attachment.create({
       data: {
-        ...values,
+        courseId,
+        url: url as string,
+        name: url.split('/').pop() as string,
       },
     });
 
-    return NextResponse.json(course);
+    return NextResponse.json(attachment);
   } catch (error) {
     console.log('[COURSE UPDATE]', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
