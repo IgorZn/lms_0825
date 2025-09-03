@@ -7,8 +7,9 @@ import DescriptionForm from './_components/description-form';
 import ImageForm from './_components/image-form';
 import { prisma } from '@/lib/db';
 import CategoryForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/category-form';
-import { DollarSign, LayoutList, SlidersHorizontal } from 'lucide-react';
+import { DollarSign, File, LayoutList, SlidersHorizontal } from 'lucide-react';
 import PriceForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/price-form';
+import AttachmentForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/attachment-form';
 
 async function Page({ params }: { params: { courseId: string } }) {
   const { userId } = await auth();
@@ -72,6 +73,12 @@ async function Page({ params }: { params: { courseId: string } }) {
         <h2 className={'text-2xl font-light'}>Course price</h2>
       </div>
       <PriceForm initialData={course} courseId={course.id} />
+
+      <div className={'mt-6 flex items-center gap-x-2'}>
+        <File size={24} />
+        <h2 className={'text-2xl font-light'}>Resource and attachments</h2>
+      </div>
+      <AttachmentForm initialData={course} courseId={course.id} />
     </div>
   );
 }

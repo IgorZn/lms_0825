@@ -5,5 +5,12 @@ export async function getCourseById(id: string) {
     where: {
       id,
     },
+    include: {
+      attachments: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+    },
   });
 }

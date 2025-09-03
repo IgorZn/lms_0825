@@ -79,12 +79,13 @@ function PriceForm({ initialData, courseId }: PriceFormProps) {
                   <FormItem>
                     <FormControl>
                       <Input
-                        type={'number'}
+                        type={''}
                         step={'0.01'}
                         disabled={isSubmitting}
                         placeholder="Set price"
                         className="resize-none bg-white"
                         {...field}
+                        onChange={e => field.onChange(parseFloat(e.target.value))}
                       />
                     </FormControl>
                     <FormMessage />
