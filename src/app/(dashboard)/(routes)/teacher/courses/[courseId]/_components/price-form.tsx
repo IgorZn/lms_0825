@@ -21,14 +21,14 @@ interface PriceFormProps {
 }
 
 const formSchema = z.object({
-  price: z.coerce.number(),
+  price: z.number().positive({ message: 'Price must be positive' }),
 });
 
 function PriceForm({ initialData, courseId }: PriceFormProps) {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema) as any,
+    resolver: zodResolver(formSchema),
     defaultValues: { price: initialData.price ?? 0 },
   });
 
