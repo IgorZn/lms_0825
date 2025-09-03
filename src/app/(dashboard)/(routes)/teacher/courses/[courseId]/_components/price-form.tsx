@@ -6,29 +6,30 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { courseFormPATCH } from '../lib/api-calls';
+import { cn } from '@/lib/utils';
+import { Course } from '@prisma/client';
+import { Input } from '@/components/ui/input';
+import { formatPrice } from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/lib/format';
 
-interface TitleFormProps {
-  initialData: {
-    title: string;
-  };
+interface PriceFormProps {
+  initialData: Course;
   courseId: string;
 }
 
 const formSchema = z.object({
-  title: z.string().min(2, { message: 'Title must be at least 2 characters long' }).max(250),
+  price: z.coerce.number(),
 });
 
-function TitleForm({ initialData, courseId }: TitleFormProps) {
+function PriceForm({ initialData, courseId }: PriceFormProps) {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: { price: initialData.price || undefined },
   });
 
   const toggleEdit = () => setIsEditing(prev => !prev);
@@ -37,7 +38,9 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await courseFormPATCH(courseId, values);
-      toast.success(<div className={'text-green-700'}>Course title updated successfully</div>);
+      toast.success(<div className={'text-green-700'}>Course description updated successfully</div>, {
+        duration: 1000,
+      });
       toggleEdit();
       router.refresh();
     } catch (error) {
@@ -48,15 +51,19 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
   return (
     <div className={'mt-6 rounded-md border bg-slate-50 p-4'}>
       <div className={'flex items-center justify-between font-medium'}>
-        Course title
-        {!isEditing && <p className={'text-sm font-light'}>{initialData.title}</p>}
+        Current price
+        {!isEditing && (
+          <p className={cn('text-sm font-light', !initialData.price && 'italic text-slate-500')}>
+            {(initialData.price && formatPrice(initialData.price as number)) || 'No price provided'}
+          </p>
+        )}
         <Button type="submit" variant={'ghost'} onClick={toggleEdit}>
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className={'mr-2 h-4 w-4'} />
-              Edit title
+              Change price
             </>
           )}
         </Button>
@@ -67,13 +74,19 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-8">
               <FormField
                 control={form.control}
-                name="title"
+                name="price"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input disabled={isSubmitting} placeholder="e.g. JavaScript" className={'bg-white'} {...field} />
+                      <Input
+                        type={'number'}
+                        step={'0.01'}
+                        disabled={isSubmitting}
+                        placeholder="Set price"
+                        className="resize-none bg-white"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormDescription>This is your public display name.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -89,4 +102,4 @@ function TitleForm({ initialData, courseId }: TitleFormProps) {
   );
 }
 
-export default TitleForm;
+export default PriceForm;

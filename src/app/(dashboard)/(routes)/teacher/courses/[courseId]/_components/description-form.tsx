@@ -76,7 +76,11 @@ function DescriptionForm({ initialData, courseId }: DescriptionFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Textarea placeholder="Give a description of the course" className="resize-none" {...field} />
+                      <Textarea
+                        placeholder="Give a description of the course"
+                        className="resize-none bg-white"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

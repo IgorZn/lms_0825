@@ -70,13 +70,15 @@ function ImageForm({ initialData, courseId }: ImageFormProps) {
             <ImageIcon className={'h-10 w-10 text-slate-500'} />
           </div>
         ) : (
-          <img src={initialData.imageUrl} alt="Course image" className={'rounded-md'} />
+          <div className={'flex items-center justify-center'}>
+            <img src={initialData.imageUrl} alt="Course image" className={'mt-2 h-3/4 w-1/2 rounded-md'} />
+          </div>
         ))}
-      {!isEditing && initialData.imageUrl && (
-        <div className={'relative mt-2 aspect-video'}>
-          <Image src={initialData.imageUrl} fill alt="Course image" className={'rounded-md object-cover'} />
-        </div>
-      )}
+      {/*{!isEditing && initialData.imageUrl && (*/}
+      {/*  <div className={'relative mt-2 aspect-video'}>*/}
+      {/*    <Image src={initialData.imageUrl} fill alt="Course image" className={'rounded-md object-cover'} />*/}
+      {/*  </div>*/}
+      {/*)}*/}
 
       <div>
         <div>

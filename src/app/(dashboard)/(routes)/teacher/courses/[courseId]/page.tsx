@@ -7,6 +7,8 @@ import DescriptionForm from './_components/description-form';
 import ImageForm from './_components/image-form';
 import { prisma } from '@/lib/db';
 import CategoryForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/category-form';
+import { DollarSign, LayoutList, SlidersHorizontal } from 'lucide-react';
+import PriceForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/price-form';
 
 async function Page({ params }: { params: { courseId: string } }) {
   const { userId } = await auth();
@@ -41,6 +43,7 @@ async function Page({ params }: { params: { courseId: string } }) {
       <div className={'mt-6 grid grid-cols-1 gap-6 md:grid-cols-3'}>
         <div>
           <div className={'flex items-center gap-x-2'}>
+            <SlidersHorizontal size={24} className={'h-6 w-6 text-2xl'} />
             <h2 className={'text-2xl font-light'}>Customize your course</h2>
           </div>
         </div>
@@ -56,6 +59,19 @@ async function Page({ params }: { params: { courseId: string } }) {
           value: category.id,
         }))}
       />
+      <div className={'mt-6 space-y-6'}>
+        <div className={'flex items-center gap-x-2'}>
+          <LayoutList size={24} />
+          <h2 className={'text-2xl font-light'}>Course chapters</h2>
+        </div>
+        <div>TODO: Add chapters</div>
+      </div>
+
+      <div className={'mt-6 flex items-center gap-x-2'}>
+        <DollarSign size={24} />
+        <h2 className={'text-2xl font-light'}>Course price</h2>
+      </div>
+      <PriceForm initialData={course} courseId={course.id} />
     </div>
   );
 }
