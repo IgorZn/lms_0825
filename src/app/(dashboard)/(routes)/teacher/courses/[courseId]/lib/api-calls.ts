@@ -9,3 +9,8 @@ export const courseAttachmentPOST = async (courseId: string, values: Record<stri
   const response = await axios.post(`/api/courses/${courseId}/attachments`, values);
   return response.data;
 };
+
+export const courseAttachmentDELETE = async (courseId: string, attachmentId: string) => {
+  const response = await axios.delete(`/api/courses/${courseId}/attachments/${attachmentId}`);
+  return response.data;
+};
