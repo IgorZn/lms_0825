@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/db';
 
-export async function PATCH(request: Request, { params }: { params: { courseId: string } }) {
+export async function POST(request: Request, { params }: { params: { courseId: string } }) {
   try {
     const { userId } = await auth();
     const { courseId } = params;
