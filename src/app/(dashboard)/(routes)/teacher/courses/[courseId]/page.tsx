@@ -10,6 +10,7 @@ import CategoryForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/
 import { DollarSign, File, LayoutList, SlidersHorizontal } from 'lucide-react';
 import PriceForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/price-form';
 import AttachmentForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/attachment-form';
+import ChaptersForm from './_components/chapters-form';
 
 async function Page({ params }: { params: { courseId: string } }) {
   const { userId } = await auth();
@@ -28,7 +29,14 @@ async function Page({ params }: { params: { courseId: string } }) {
     return redirect('/');
   }
 
-  const requiredFields = [course.title, course.description, course.imageUrl, course.price, course.categoryId];
+  const requiredFields = [
+    course.title,
+    course.description,
+    course.imageUrl,
+    course.price,
+    course.categoryId,
+    course.chapters.some(chapter => chapter.isPublished),
+  ];
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
   const completedText = `(${completedFields}/${totalFields})`;
@@ -51,6 +59,7 @@ async function Page({ params }: { params: { courseId: string } }) {
       </div>
       <TitleForm initialData={course} courseId={course.id} />
       <DescriptionForm initialData={{ description: course.description ?? '' }} courseId={course.id} />
+      <ChaptersForm initialData={course} courseId={course.id} />
       <ImageForm initialData={course} courseId={course.id} />
       <CategoryForm
         initialData={course}
