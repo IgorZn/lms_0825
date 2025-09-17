@@ -13,6 +13,7 @@ import { chapterFormPOST, courseFormPATCH } from '../lib/api-calls';
 import { cn } from '@/lib/utils';
 import { Chapter, Course } from '@prisma/client';
 import { Input } from '@/components/ui/input';
+import ChapterList from './chapter-list';
 
 interface ChaptersFormProps {
   initialData: Course & { chapters: Chapter[] };
@@ -91,7 +92,7 @@ function ChaptersForm({ initialData, courseId }: ChaptersFormProps) {
         {!isCreating && (
           <div className={cn('text-sm font-light', !initialData.chapters.length && 'italic text-slate-500')}>
             {!initialData.chapters.length && 'No chapters yet'}
-            {/* TODO: add a list of chapters */}
+            <ChapterList onEdit={() => {}} onReorder={() => {}} items={initialData.chapters || []} />
           </div>
         )}
         {!isCreating && <p className={'mt-4 text-xs text-muted-foreground'}>Drag and drop to reorder chapters</p>}
