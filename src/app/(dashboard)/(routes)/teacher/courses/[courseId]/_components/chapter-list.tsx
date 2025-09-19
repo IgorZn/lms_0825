@@ -43,6 +43,7 @@ function ChapterList({ onEdit, onReorder, items }: ChapterListProps) {
   };
 
   const onDragEnd = async (result: DropResult) => {
+    if (result.destination === null) return [];
     const items: Chapter[] = await reorder(chapters, result.source.index, result.destination.index);
     setChapters(items);
     return items;
