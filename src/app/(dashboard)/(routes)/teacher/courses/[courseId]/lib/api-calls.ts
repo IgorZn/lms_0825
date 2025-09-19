@@ -10,6 +10,21 @@ export const chapterFormPOST = async (courseId: string, values: Record<string, s
   return response.data;
 };
 
+export const chapterReorderPUT = async (
+  courseId: string,
+  values: Record<string, string | number | Date | boolean | null>[],
+) => {
+  try {
+    console.log('[CHAPTER REORDER, chapterReorderPUT > values]', values);
+    const res = await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+      list: values,
+    });
+    return res.data;
+  } catch (e) {
+    console.log('ERR > chapterReorderPUT', e);
+  }
+};
+
 export const chapterFormPATCH = async (courseId: string, values: Record<string, string | number>) => {
   const response = await axios.patch(`/api/courses/${courseId}/chapters`, values);
   return response.data;

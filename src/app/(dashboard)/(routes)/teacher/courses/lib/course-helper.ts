@@ -11,7 +11,7 @@ export async function getCourseById(id: string) {
     include: {
       chapters: {
         orderBy: {
-          createdAt: 'asc',
+          position: 'asc',
         },
       },
       attachments: {
