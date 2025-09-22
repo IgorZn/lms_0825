@@ -5,7 +5,6 @@ import * as z from 'zod';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { ImageIcon, Pencil, PlusCircle } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { courseFormPATCH } from '../lib/api-calls';
 import { cn } from '@/lib/utils';

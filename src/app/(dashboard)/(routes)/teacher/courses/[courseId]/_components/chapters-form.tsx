@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Loader2, PlusCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { chapterFormPOST, chapterReorderPUT, courseFormPATCH } from '../lib/api-calls';
+import { chapterFormPOST, chapterReorderPUT } from '../lib/api-calls';
 import { cn } from '@/lib/utils';
 import { Chapter, Course } from '@prisma/client';
 import { Input } from '@/components/ui/input';

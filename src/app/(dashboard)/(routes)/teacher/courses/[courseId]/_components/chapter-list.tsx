@@ -14,7 +14,6 @@ interface ChapterListProps {
 }
 
 function ChapterList({ onEdit, onReorder, items }: ChapterListProps) {
-  console.log('ChapterList >> items', items);
   const [isMounted, setIsMounted] = useState(false);
   const [chapters, setChapters] = useState<Chapter[]>(items);
 

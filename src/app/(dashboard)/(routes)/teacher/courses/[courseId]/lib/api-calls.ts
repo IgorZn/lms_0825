@@ -25,8 +25,12 @@ export const chapterReorderPUT = async (
   }
 };
 
-export const chapterFormPATCH = async (courseId: string, values: Record<string, string | number>) => {
-  const response = await axios.patch(`/api/courses/${courseId}/chapters`, values);
+export const chapterFormPATCH = async (
+  courseId: string,
+  chapterId: string,
+  values: Record<string, string | number | Date | boolean | null>,
+) => {
+  const response = await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
   return response.data;
 };
 
