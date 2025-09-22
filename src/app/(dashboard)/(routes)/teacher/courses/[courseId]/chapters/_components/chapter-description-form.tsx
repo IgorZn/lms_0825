@@ -22,7 +22,7 @@ interface ChapterDescriptionFormProps {
 }
 
 const formSchema = z.object({
-  description: z.string().min(1),
+  description: z.string().min(1).nullable(),
 });
 
 function ChapterDescriptionForm({ initialData, courseId, chapterId }: ChapterDescriptionFormProps) {
