@@ -1,4 +1,4 @@
-import { LayoutDashboard, Badge, SlidersHorizontal } from 'lucide-react';
+import { Badge, SlidersHorizontal, Eye, Video } from 'lucide-react';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import ChapterTitleForm from '../_components/chapter-title-form';
 import ChapterDescriptionForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/chapters/_components/chapter-description-form';
+import ChapterAccessForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/chapters/_components/chapter-access-form';
 
 async function Page({ params }: { params: { courseId: string; chapterId: string } }) {
   const { courseId, chapterId } = params;
@@ -61,6 +62,19 @@ async function Page({ params }: { params: { courseId: string; chapterId: string 
             </div>
             <ChapterTitleForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
             <ChapterDescriptionForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
+          </div>
+          <div>
+            <div className={'flex items-center gap-x-2'}>
+              <Eye />
+              <h2>Access settings</h2>
+            </div>
+            <ChapterAccessForm initialData={chapter} chapterId={chapterId} courseId={courseId} />
+          </div>
+          <div>
+            <div className={'flex items-center gap-x-2'}>
+              <Video />
+              <h2 className={'text-xl'}>Add video</h2>
+            </div>
           </div>
         </div>
       </div>
