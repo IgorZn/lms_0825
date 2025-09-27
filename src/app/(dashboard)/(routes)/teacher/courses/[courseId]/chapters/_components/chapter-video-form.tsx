@@ -47,11 +47,9 @@ function ChapterVideoForm({ initialData, courseId, chapterId }: ChapterVideoForm
           <p className={cn('text-sm font-light', !initialData.videoUrl && 'italic text-slate-500')}>
             {initialData.videoUrl ? (
               <MuxPlayer
-                playbackId="a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M"
+                playbackId={initialData.muxDate?.playbackId || ''}
                 metadata={{
-                  video_id: 'video-id-54321',
-                  video_title: 'Test video title',
-                  viewer_user_id: 'user-id-007',
+                  video_id: initialData.muxDate?.assetId,
                 }}
               />
             ) : (
