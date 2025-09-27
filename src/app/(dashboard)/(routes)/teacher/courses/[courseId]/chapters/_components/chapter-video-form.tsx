@@ -23,6 +23,7 @@ const formSchema = z.object({
 });
 
 function ChapterVideoForm({ initialData, courseId, chapterId }: ChapterVideoFormProps) {
+  console.log('[ChapterVideoForm] initialData >>', initialData);
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
 
@@ -95,7 +96,6 @@ function ChapterVideoForm({ initialData, courseId, chapterId }: ChapterVideoForm
                   }
                 }}
               />
-              {/*<MuxUploader endpoint="https://api.mux.com/video/v1/signing-keys" />*/}
               <div className={'text-sm text-muted-foreground'}>Upload chapter&apos;s video</div>
             </>
           )}

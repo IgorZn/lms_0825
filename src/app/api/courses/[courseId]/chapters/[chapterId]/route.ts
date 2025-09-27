@@ -7,6 +7,7 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
   const { courseId, chapterId } = params;
   const { userId } = await auth();
   const { isPublished, ...values } = await req.json();
+  console.log('[CHAPTER UPDATE] values >>', values);
 
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   if (!courseId) return NextResponse.json({ error: 'No such course id' }, { status: 400 });
@@ -49,7 +50,7 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
       const playbackId = asset.playback_ids?.[0]?.id ?? '';
 
       // create muxDate
-      await prisma.muxDate.create({
+      const muxDate = await prisma.muxDate.create({
         data: {
           chapterId,
           assetId: asset.id,
@@ -57,6 +58,7 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
         },
       });
 
+      console.log('[muxDate]>>', muxDate);
       console.log('mux__asset>>', asset);
     }
 
