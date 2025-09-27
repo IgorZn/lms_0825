@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import MuxUploader from '@mux/mux-uploader-react';
+import MuxPlayer from '@mux/mux-player-react';
 import * as z from 'zod';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -45,7 +45,18 @@ function ChapterVideoForm({ initialData, courseId, chapterId }: ChapterVideoForm
         Video
         {!isEditing && (
           <p className={cn('text-sm font-light', !initialData.videoUrl && 'italic text-slate-500')}>
-            {initialData.videoUrl || 'No video provided'}
+            {initialData.videoUrl ? (
+              <MuxPlayer
+                playbackId="a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M"
+                metadata={{
+                  video_id: 'video-id-54321',
+                  video_title: 'Test video title',
+                  viewer_user_id: 'user-id-007',
+                }}
+              />
+            ) : (
+              'No video provided'
+            )}
           </p>
         )}
         <Button type="submit" variant={'ghost'} onClick={toggleEdit}>
