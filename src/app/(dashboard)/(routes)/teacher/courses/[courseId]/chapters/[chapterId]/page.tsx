@@ -8,6 +8,7 @@ import { ArrowLeft } from 'lucide-react';
 import ChapterTitleForm from '../_components/chapter-title-form';
 import ChapterDescriptionForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/chapters/_components/chapter-description-form';
 import ChapterAccessForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/chapters/_components/chapter-access-form';
+import ChapterVideoForm from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/chapters/_components/chapter-video-form';
 
 async function Page({ params }: { params: { courseId: string; chapterId: string } }) {
   const { courseId, chapterId } = params;
@@ -76,6 +77,7 @@ async function Page({ params }: { params: { courseId: string; chapterId: string 
               <h2 className={'text-xl'}>Add video</h2>
             </div>
           </div>
+          <ChapterVideoForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
         </div>
       </div>
     </div>

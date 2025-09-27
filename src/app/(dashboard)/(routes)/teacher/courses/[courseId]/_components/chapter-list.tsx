@@ -76,7 +76,7 @@ function ChapterList({ onEdit, onReorder, items }: ChapterListProps) {
                       </div>
                       {item.title}
                       <div className={'ml-auto flex items-center gap-x-2 pr-2'}>
-                        {item.isFree && <Badge>Free</Badge>}
+                        {item.isFree && <Badge className={'bg-green-500 text-black'}>Free</Badge>}
                         <Badge className={cn('bg-slate-500', item.isPublished && 'bg-sky-700')}>
                           {item.isPublished ? 'Published' : 'Draft'}
                         </Badge>

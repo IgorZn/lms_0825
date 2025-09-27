@@ -30,6 +30,7 @@ export const chapterFormPATCH = async (
   chapterId: string,
   values: Record<string, string | number | Date | boolean | null>,
 ) => {
+  console.log('chapterFormPATCH>>>', values);
   const response = await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
   return response.data;
 };

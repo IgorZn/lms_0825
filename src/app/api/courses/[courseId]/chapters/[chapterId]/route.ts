@@ -1,6 +1,7 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import Mux from '@mux/mux-node';
 
 export async function PATCH(req: Request, { params }: { params: { courseId: string; chapterId: string } }) {
   const { courseId, chapterId } = params;
@@ -21,7 +22,33 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
       },
     });
 
-    // TODO: handle video upload
+    // Handle video upload
+    const client = new Mux({
+      tokenId: process.env['MUX_TOKEN_ID'], // This is the default and can be omitted
+      tokenSecret: process.env['MUX_TOKEN_SECRET'], // This is the default and can be omitted
+    });
+
+    if (values.videoURL) {
+      const existingAsset = await prisma.muxDate.findUnique({
+        where: {
+          chapterId,
+        },
+      });
+
+      if (existingAsset) {
+        await client.video.assets.delete(existingAsset.id);
+        await prisma.muxDate.deleteMany({ where: { id: existingAsset.id } });
+      }
+
+      const params: Mux.Video.AssetCreateParams = {
+        inputs: [{ url: values.videoURL }],
+        playback_policies: ['public'],
+      };
+
+      const asset: Mux.Video.Asset = await client.video.assets.create(params);
+      console.log('asset>>', asset.id);
+    }
+
     return NextResponse.json(chapter);
   } catch (error) {
     console.log('[CHAPTER UPDATE]', error);
