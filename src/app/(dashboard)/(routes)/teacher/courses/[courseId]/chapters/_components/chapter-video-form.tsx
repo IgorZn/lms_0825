@@ -87,14 +87,14 @@ function ChapterVideoForm({ initialData, courseId, chapterId }: ChapterVideoForm
                 }}
               />
               {/*<MuxUploader endpoint="https://api.mux.com/video/v1/signing-keys" />*/}
-              <div className={'text-sm text-muted-foreground'}>Upload chapter's video</div>
+              <div className={'text-sm text-muted-foreground'}>Upload chapter&apos;s video</div>
             </>
           )}
         </div>
       </div>
       {!initialData.videoUrl && !isEditing && (
         <div className={'mt-2 text-sm text-muted-foreground'}>
-          Video can take a few minutes to process. Please be patient. Refresh the page to see the video if it's not
+          Video can take a few minutes to process. Please be patient. Refresh the page to see the video if it&apos;s not
           visible.
         </div>
       )}
