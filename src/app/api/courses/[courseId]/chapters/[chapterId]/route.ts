@@ -46,7 +46,7 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
       };
 
       const asset: Mux.Video.Asset = await client.video.assets.create(params);
-      const playbackId = asset.playback_ids[0].id ?? '';
+      const playbackId = asset.playback_ids?.[0]?.id ?? '';
 
       // create muxDate
       await prisma.muxDate.create({
